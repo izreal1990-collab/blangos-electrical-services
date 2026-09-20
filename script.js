@@ -39,10 +39,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-            document.body.style.overflow = '';
+            if (navToggle && navMenu) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
+    });
+
+    // Close mobile menu on outside click
+    document.addEventListener('click', function(e) {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
     });
 
     window.addEventListener('scroll', function() {
@@ -96,12 +109,30 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+            question.addEventListener('click', function() {
+                const isOpen = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isOpen) {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || !href) return;
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(href);
             if (target) {
-                const offset = 80;
+                const headerEl = document.querySelector('.header');
+                const offset = headerEl ? headerEl.offsetHeight + 10 : 80;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({
                     top: targetPosition,
