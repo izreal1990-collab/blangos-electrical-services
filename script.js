@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
             navToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+            if (header) {
+                header.classList.remove('header-hidden');
+            }
         });
     }
 
@@ -43,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
+            }
+            if (header) {
+                header.classList.remove('header-hidden');
             }
         });
     });
@@ -58,13 +64,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Auto-hide header when scrolling down, show when scrolling up
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            header.style.boxShadow = 'var(--shadow-md)';
-        } else {
-            header.style.boxShadow = 'none';
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const menuActive = navMenu && navMenu.classList.contains('active');
+
+        // Do not hide header if mobile drawer is currently open
+        if (menuActive) {
+            if (header) header.classList.remove('header-hidden');
+            return;
         }
-    });
+
+        if (header) {
+            if (currentScrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+
+            // Hide when scrolling down, reveal immediately when scrolling up
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                header.classList.add('header-hidden');
+            } else if (currentScrollY < lastScrollY || currentScrollY <= 80) {
+                header.classList.remove('header-hidden');
+            }
+        }
+
+        lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
+    }, { passive: true });
 
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
@@ -109,23 +138,21 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // FAQ Accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
-            question.addEventListener('click', function() {
-                const isOpen = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active'));
-                if (!isOpen) {
-                    item.classList.add('active');
-                }
-            });
-        }
+    // FAQ Accordion - native details toggle enhancement
+    const faqDetails = document.querySelectorAll('details.faq-item');
+    faqDetails.forEach(detail => {
+        detail.addEventListener('toggle', function() {
+            if (this.open) {
+                faqDetails.forEach(other => {
+                    if (other !== this) other.open = false;
+                });
+            }
+        });
     });
 
     // Customer Reviews & Photo Submission
     const openReviewModalBtn = document.getElementById('open-review-modal-btn');
+    const emptyStateReviewBtn = document.getElementById('empty-state-review-btn');
     const closeReviewModalBtn = document.getElementById('close-review-modal-btn');
     const reviewModal = document.getElementById('review-modal');
     const reviewForm = document.getElementById('review-form');
@@ -137,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ratingText = document.getElementById('rating-text');
     const testimonialsGrid = document.getElementById('testimonials-grid');
     const reviewFeedback = document.getElementById('review-form-feedback');
+    const reviewsEmptyState = document.getElementById('reviews-empty-state');
 
     // Lightbox Elements
     const lightboxModal = document.getElementById('image-lightbox');
@@ -169,6 +197,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (openReviewModalBtn) {
         openReviewModalBtn.addEventListener('click', openReviewModal);
+    }
+
+    if (emptyStateReviewBtn) {
+        emptyStateReviewBtn.addEventListener('click', openReviewModal);
     }
 
     if (closeReviewModalBtn) {
@@ -427,13 +459,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const saved = localStorage.getItem('blangos_customer_reviews');
             if (saved) {
                 const reviews = JSON.parse(saved);
-                if (Array.isArray(reviews)) {
+                if (Array.isArray(reviews) && reviews.length > 0) {
+                    if (reviewsEmptyState) reviewsEmptyState.style.display = 'none';
                     // Prepend saved reviews in reverse order so newest is at the top
                     reviews.forEach(review => {
                         const el = createReviewElement(review);
                         testimonialsGrid.insertBefore(el, testimonialsGrid.firstChild);
                     });
+                } else if (reviewsEmptyState) {
+                    reviewsEmptyState.style.display = 'block';
                 }
+            } else if (reviewsEmptyState) {
+                reviewsEmptyState.style.display = 'block';
             }
         } catch (e) {
             console.error('Error loading saved reviews:', e);
@@ -495,7 +532,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.warn('Could not save to localStorage (storage full):', err);
             }
 
-            // Prepend new review card to the grid
+            // Hide empty state and prepend new review card to the grid
+            if (reviewsEmptyState) {
+                reviewsEmptyState.style.display = 'none';
+            }
             if (testimonialsGrid) {
                 const el = createReviewElement(newReview);
                 testimonialsGrid.insertBefore(el, testimonialsGrid.firstChild);
@@ -538,6 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
+                if (header) header.classList.remove('header-hidden');
                 const headerEl = document.querySelector('.header');
                 const offset = headerEl ? headerEl.offsetHeight + 10 : 80;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;

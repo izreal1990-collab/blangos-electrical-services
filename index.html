@@ -329,7 +329,7 @@
                 <header class="section-header">
                     <span class="section-tag">Customer Reviews</span>
                     <h2 class="section-title">What Our Customers Say</h2>
-                    <p class="section-description">Read honest feedback from Columbus homeowners and business owners, or share your own review with project photos.</p>
+                    <p class="section-description">Real feedback and verified project pictures from Columbus homeowners and business owners.</p>
                     <div class="reviews-header-cta">
                         <button type="button" class="btn btn-primary" id="open-review-modal-btn">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -338,42 +338,16 @@
                     </div>
                 </header>
                 <div class="testimonials-grid" id="testimonials-grid">
-                    <article class="testimonial">
-                        <div class="testimonial-header">
-                            <div class="stars">★★★★★</div>
-                            <span class="verified-badge">✓ Verified Customer</span>
+                    <div class="reviews-empty-state" id="reviews-empty-state">
+                        <div class="empty-state-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         </div>
-                        <span class="testimonial-service">Residential Rewiring</span>
-                        <p>"Blangos Electrical completely rewired our 1950s home. They were professional, clean, and explained everything. The final inspection passed with zero issues. Highly recommend!"</p>
-                        <footer>
-                            <strong>Sarah Mitchell</strong>
-                            <span>Homeowner, Oakwood</span>
-                        </footer>
-                    </article>
-                    <article class="testimonial">
-                        <div class="testimonial-header">
-                            <div class="stars">★★★★★</div>
-                            <span class="verified-badge">✓ Verified Customer</span>
-                        </div>
-                        <span class="testimonial-service">Commercial Lighting</span>
-                        <p>"We've used Blangos for our retail locations for years. Their preventive maintenance program has saved us thousands in emergency calls. Reliable and fairly priced."</p>
-                        <footer>
-                            <strong>Michael Chen</strong>
-                            <span>Property Manager, Downtown Plaza</span>
-                        </footer>
-                    </article>
-                    <article class="testimonial">
-                        <div class="testimonial-header">
-                            <div class="stars">★★★★★</div>
-                            <span class="verified-badge">✓ Verified Customer</span>
-                        </div>
-                        <span class="testimonial-service">Emergency Repair</span>
-                        <p>"Called at 2 AM for a power outage - they arrived within 45 minutes. Found a dangerous panel issue and fixed it same day. True 24/7 service when you need it most."</p>
-                        <footer>
-                            <strong>David Rodriguez</strong>
-                            <span>Homeowner, Riverside</span>
-                        </footer>
-                    </article>
+                        <h3>Be the First to Share Your Experience!</h3>
+                        <p>Have we completed electrical work for your home or business in the Columbus area? We would love to hear your feedback and see photos of the completed project.</p>
+                        <button type="button" class="btn btn-secondary" id="empty-state-review-btn">
+                            Leave Your Review with Photos
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -382,33 +356,55 @@
             <div class="container">
                 <header class="section-header">
                     <span class="section-tag">FAQ</span>
-                    <h2 class="section-title">Common Questions</h2>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-description">Clear, direct answers about our service areas, estimates, turnaround times, and electrical solutions.</p>
                 </header>
                 <div class="faq-container">
-                    <div class="faq-item">
-                        <button class="faq-question">Do you provide free estimates? <span class="faq-icon">+</span></button>
+                    <details class="faq-item" open>
+                        <summary class="faq-question">
+                            <span>What areas in Ohio do you service?</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
                         <div class="faq-answer">
-                            <p>Yes, we provide complimentary, detailed estimates for all residential and commercial projects. We'll assess your needs and give you a clear, transparent quote before any work begins.</p>
+                            <p>We work throughout Columbus, Ohio and surrounding communities within a 50-mile radius. This includes Columbus, Dublin, Grove City, Hilliard, Westerville, Upper Arlington, Gahanna, Reynoldsburg, Pickerington, Delaware, and nearby Central Ohio areas.</p>
                         </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">What is considered an electrical emergency? <span class="faq-icon">+</span></button>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>How do I get a free estimate or schedule service?</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
                         <div class="faq-answer">
-                            <p>Emergencies include total power outages, sparking outlets, smelling burning plastic/ozone, or exposed live wires. If you experience any of these, call our 24/7 emergency line immediately.</p>
+                            <p>You can book an appointment directly through our online Calendly scheduler below, submit our contact form with your project details, or call us directly at <a href="tel:614-570-4434" class="inline-link">(614) 570-4434</a>. We provide upfront, transparent estimates before starting any job.</p>
                         </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">What standards and safety protocols do you follow? <span class="faq-icon">+</span></button>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>What types of electrical services do you offer?</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
                         <div class="faq-answer">
-                            <p>We prioritize safety on every job by strictly adhering to National Electrical Code (NEC) standards and following thorough safety protocols to protect your home or business.</p>
+                            <p>We provide full residential and light commercial electrical services, including panel upgrades (100A to 200A service), EV charger installation (Level 2 home chargers), interior and exterior lighting installation, troubleshooting power loss or tripping breakers, outlet and switch replacement, ceiling fan wiring, and safety inspections.</p>
                         </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">How quickly can you respond to a service call? <span class="faq-icon">+</span></button>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>How quickly can you respond for urgent repairs?</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
                         <div class="faq-answer">
-                            <p>For emergency calls, we aim to be on-site within 60-90 minutes. For standard service requests, we typically schedule visits within 24-48 hours.</p>
+                            <p>For urgent electrical problems in the Columbus area (such as total power loss, sparking outlets, or burning smells), we provide rapid response. Call our direct line at <a href="tel:614-570-4434" class="inline-link">(614) 570-4434</a> for immediate assistance.</p>
                         </div>
-                    </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>What should I do if an outlet sparks or a circuit breaker trips repeatedly?</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>If an outlet sparks or smells burnt, immediately turn off the circuit breaker that powers that area and do not plug anything into it. If a breaker trips repeatedly, do not force it back on—this indicates an overload, short circuit, or failing component. Call us at <a href="tel:614-570-4434" class="inline-link">(614) 570-4434</a> so we can safely diagnose and resolve the issue.</p>
+                        </div>
+                    </details>
                 </div>
             </div>
         </section>
