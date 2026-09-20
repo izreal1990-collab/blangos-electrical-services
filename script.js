@@ -64,35 +64,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Auto-hide header when scrolling down, show when scrolling up
-    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
-
+    // Header shadow on scroll
     window.addEventListener('scroll', function() {
         const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-        const menuActive = navMenu && navMenu.classList.contains('active');
-
-        // Do not hide header if mobile drawer is currently open
-        if (menuActive) {
-            if (header) header.classList.remove('header-hidden');
-            return;
-        }
-
         if (header) {
-            if (currentScrollY > 50) {
+            if (currentScrollY > 20) {
                 header.classList.add('header-scrolled');
             } else {
                 header.classList.remove('header-scrolled');
             }
-
-            // Hide when scrolling down, reveal immediately when scrolling up
-            if (currentScrollY > lastScrollY && currentScrollY > 80) {
-                header.classList.add('header-hidden');
-            } else if (currentScrollY < lastScrollY || currentScrollY <= 80) {
-                header.classList.remove('header-hidden');
-            }
         }
-
-        lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
     }, { passive: true });
 
     const contactForm = document.querySelector('.contact-form');

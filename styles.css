@@ -164,25 +164,14 @@ img {
 }
 
 .header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
     background: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     border-bottom: 1px solid rgba(226, 232, 240, 0.8);
     z-index: 1000;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-    will-change: transform;
-}
-
-.header.header-hidden {
-    transform: translateY(-100%);
-    box-shadow: none;
-}
-
-.header.header-scrolled {
-    box-shadow: var(--shadow-md);
 }
 
 section,
@@ -212,23 +201,33 @@ section,
     font-weight: 800;
     font-size: 22px;
     color: var(--gray-900);
+    text-decoration: none;
+    flex-shrink: 0;
     transition: var(--transition);
 }
 
 .logo:hover {
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .logo-image {
-    height: 52px;
+    height: 48px;
     width: auto;
     border-radius: 6px;
+}
+
+.logo-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 20px;
+    font-weight: 800;
 }
 
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
 }
 
 .nav-link {
@@ -267,36 +266,32 @@ section,
     gap: 12px;
 }
 
-.nav-phone {
+.nav-phone-desktop {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-weight: 700;
     color: var(--white);
-    padding: 10px 20px;
+    padding: 10px 18px;
     background: var(--primary);
     border-radius: var(--radius);
     transition: var(--transition);
-    font-size: 15px;
+    font-size: 14px;
     white-space: nowrap;
     text-decoration: none;
 }
 
-.nav-phone:hover {
+.nav-phone-desktop:hover {
     background: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
-.nav-phone svg {
+.nav-phone-desktop svg {
     flex-shrink: 0;
 }
 
-.nav-phone-short {
-    display: none;
-}
-
-.nav-menu-cta {
+.nav-menu-header-cta {
     display: none;
 }
 
@@ -1782,22 +1777,25 @@ details[open] summary .faq-icon {
     }
 
     .header {
-        height: 68px;
+        height: 64px;
         background: #ffffff !important;
+        position: sticky;
+        top: 0;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
     }
 
     .nav {
-        height: 68px;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 8px;
+        gap: 12px;
     }
 
     .logo {
         gap: 8px;
-        flex-shrink: 1;
-        min-width: 0;
+        flex-shrink: 0;
     }
 
     .logo-image {
@@ -1806,76 +1804,39 @@ details[open] summary .faq-icon {
     }
 
     .logo-text {
-        display: flex;
-        flex-direction: column;
-        font-size: 15px;
-        line-height: 1.1;
+        font-size: 17px;
+        font-weight: 800;
         white-space: nowrap;
     }
 
     .logo-subtext {
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 17px;
+        font-weight: 800;
     }
 
     .nav-actions {
         display: flex;
         align-items: center;
-        gap: 8px;
-        flex-shrink: 0;
         margin-left: auto;
     }
 
-    /* Floating phone number at top right on mobile */
-    .nav-phone {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 700;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        color: var(--white);
-        box-shadow: 0 2px 8px rgba(26, 95, 122, 0.35);
-        white-space: nowrap;
-        margin: 0;
-        width: auto;
-        min-height: 38px;
-        line-height: 1;
-        text-decoration: none;
+    /* Completely hide phone button from the top mobile header bar */
+    .nav-phone-desktop {
+        display: none !important;
     }
 
-    .nav-phone-full {
-        display: inline;
-    }
-
-    .nav-phone-short {
-        display: none;
-    }
-
-    .nav-phone:hover,
-    .nav-phone:active {
-        background: var(--accent-dark);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(26, 95, 122, 0.45);
-    }
-
-    .nav-phone svg {
-        width: 14px;
-        height: 14px;
-    }
-
+    /* Clean hamburger button on mobile header */
     .nav-toggle {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
         padding: 0;
         background: var(--gray-100);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius);
+        cursor: pointer;
         z-index: 1001;
     }
 
@@ -1895,16 +1856,16 @@ details[open] summary .faq-icon {
 
     .nav-menu {
         position: fixed;
-        top: 68px;
+        top: 64px;
         left: 0;
         right: 0;
-        max-height: calc(100vh - 68px);
+        max-height: calc(100vh - 64px);
         overflow-y: auto;
         background: var(--white);
         flex-direction: column;
-        padding: 24px 20px 32px;
-        gap: 14px;
-        border-bottom: 2px solid var(--primary);
+        padding: 20px 20px 32px;
+        gap: 12px;
+        border-bottom: 3px solid var(--primary);
         transform: translateY(-110%);
         opacity: 0;
         visibility: hidden;
@@ -1926,10 +1887,11 @@ details[open] summary .faq-icon {
         border-bottom: 1px solid var(--gray-100);
     }
 
-    .nav-menu-cta {
+    /* Prominent call button at top of mobile menu drawer */
+    .nav-menu-header-cta {
         display: block;
         width: 100%;
-        margin-top: 8px;
+        margin-bottom: 8px;
     }
 
     .nav-menu-phone {
@@ -2182,6 +2144,18 @@ details[open] summary .faq-icon {
 }
 
 @media (max-width: 480px) {
+    .logo-image {
+        height: 34px;
+    }
+
+    .logo-text {
+        font-size: 15px;
+    }
+
+    .logo-subtext {
+        font-size: 15px;
+    }
+
     .hero-title {
         font-size: 32px;
     }
@@ -2217,32 +2191,15 @@ details[open] summary .faq-icon {
     }
 
     .logo-text {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .logo-image {
         height: 32px;
     }
 
-    .nav-actions {
-        gap: 6px;
-    }
-
-    .nav-phone {
-        padding: 6px 9px;
-        font-size: 11px;
-    }
-
-    .nav-phone-full {
-        display: none;
-    }
-
-    .nav-phone-short {
-        display: inline;
-    }
-
     .nav-toggle {
-        width: 38px;
-        height: 38px;
+        width: 40px;
+        height: 40px;
     }
 }
