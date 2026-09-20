@@ -532,42 +532,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.warn('Could not save to localStorage (storage full):', err);
             }
 
-            // Hide empty state and prepend new review card to the grid
+            // Hide empty state and immediately prepend new review card to the grid
             if (reviewsEmptyState) {
                 reviewsEmptyState.style.display = 'none';
             }
             if (testimonialsGrid) {
                 const el = createReviewElement(newReview);
+                el.classList.add('new-review');
                 testimonialsGrid.insertBefore(el, testimonialsGrid.firstChild);
             }
 
-            if (reviewFeedback) {
-                const photoMsg = uploadedPhotos.length ? ` with ${uploadedPhotos.length} photo${uploadedPhotos.length > 1 ? 's' : ''}` : '';
-                reviewFeedback.className = 'review-form-feedback success';
-                reviewFeedback.textContent = `Thank you, ${name}! Your review${photoMsg} has been posted.`;
+            // Immediately reset form and close modal
+            reviewForm.reset();
+            uploadedPhotos = [];
+            renderPhotoPreviews();
+            setRating(5);
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+            closeReviewModal();
+
+            // Show Toast Notification on the page
+            const toast = document.getElementById('review-toast');
+            const toastText = document.getElementById('review-toast-text');
+            if (toast && toastText) {
+                const photoMsg = newReview.photos.length ? ` with ${newReview.photos.length} photo${newReview.photos.length > 1 ? 's' : ''}` : '';
+                toastText.textContent = `Thank you, ${name}! Your review${photoMsg} has been published.`;
+                toast.classList.add('active');
+                setTimeout(() => {
+                    toast.classList.remove('active');
+                }, 4500);
             }
 
-            setTimeout(() => {
-                reviewForm.reset();
-                uploadedPhotos = [];
-                renderPhotoPreviews();
-                setRating(5);
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
-                closeReviewModal();
-
-                // Smooth scroll to the reviews section
-                const reviewsSection = document.getElementById('reviews');
-                if (reviewsSection) {
-                    const headerEl = document.querySelector('.header');
-                    const offset = headerEl ? headerEl.offsetHeight + 10 : 80;
-                    const targetPosition = reviewsSection.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 1800);
+            // Smooth scroll to the reviews section so customer sees review instantly
+            const reviewsSection = document.getElementById('reviews');
+            if (reviewsSection) {
+                const headerEl = document.querySelector('.header');
+                const offset = headerEl ? headerEl.offsetHeight + 10 : 80;
+                const targetPosition = reviewsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
         });
     }
 

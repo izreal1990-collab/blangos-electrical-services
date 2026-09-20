@@ -339,16 +339,18 @@
                     </div>
                 </header>
                 <div class="testimonials-grid" id="testimonials-grid">
-                    <div class="reviews-empty-state" id="reviews-empty-state">
-                        <div class="empty-state-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <article class="testimonial">
+                        <div class="testimonial-header">
+                            <div class="stars">★★★★★</div>
+                            <span class="verified-badge">✓ Verified Customer</span>
                         </div>
-                        <h3>Be the First to Share Your Experience!</h3>
-                        <p>Have we completed electrical work for your home or business in the Columbus area? We would love to hear your feedback and see photos of the completed project.</p>
-                        <button type="button" class="btn btn-secondary" id="empty-state-review-btn">
-                            Leave Your Review with Photos
-                        </button>
-                    </div>
+                        <span class="testimonial-service">Lighting, Fans & Smart Home Upgrades</span>
+                        <p>"Changed light fixtures, replaced ceiling fans, repaired my washer, changed my thermostat to a digital monitor, installed a bluetooth exhaust fan in my bathroom, all done with perfection and efficiently. Would recommend absolutely! Thank you for everything will continue to be a returning customer!"</p>
+                        <footer>
+                            <strong>Jodi Shroer</strong>
+                            <span>Homeowner, Columbus, OH</span>
+                        </footer>
+                    </article>
                 </div>
             </div>
         </section>
@@ -647,7 +649,13 @@
         </div>
     </div>
 
-    <script src="script.js?v=20260920"></script>
+    <!-- Review Toast Notification -->
+    <div id="review-toast" class="review-toast" role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="review-toast-text">Thank you! Your review has been published.</span>
+    </div>
+
+    <script src="script.js?v=20260920b"></script>
     <!-- Calendly integration -->
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>

@@ -814,18 +814,35 @@ section,
 
 .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
+}
+
+@keyframes reviewFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .testimonial {
     background: var(--gray-50);
-    padding: 40px;
+    padding: 36px;
     border-radius: var(--radius-lg);
     border: 1px solid var(--gray-200);
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    animation: reviewFadeIn 0.5s ease-out forwards;
+}
+
+.testimonial.new-review {
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.25);
 }
 
 .testimonial:hover {
@@ -1249,6 +1266,36 @@ section,
     font-size: 14px;
     margin-top: 10px;
     text-align: center;
+}
+
+/* Review Notification Toast */
+.review-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #0f172a;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, visibility 0.4s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+}
+
+.review-toast.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 .faq {
