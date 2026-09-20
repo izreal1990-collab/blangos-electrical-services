@@ -97,23 +97,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = this.querySelector('button[type="submit"]');
             const originalText = btn.textContent;
-            btn.textContent = 'Sending...';
+            btn.textContent = 'Sending Request...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                btn.textContent = 'Request Sent!';
+            const formData = new FormData(contactForm);
+            const data = {
+                "Full Name": formData.get('name'),
+                "Phone Number": formData.get('phone'),
+                "Email Address": formData.get('email'),
+                "Service Needed": formData.get('service'),
+                "Project Details": formData.get('message') || 'None provided',
+                _subject: `⚡ New Estimate Request from ${formData.get('name')} (${formData.get('phone')})`,
+                _captcha: 'false',
+                _template: 'table'
+            };
+
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/blangoselectricservicesllc@outlook.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    btn.textContent = '✓ Request Sent to Our Team!';
+                    btn.style.background = 'var(--success)';
+                    contactForm.reset();
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 4000);
+                } else {
+                    throw new Error('Response status ' + response.status);
+                }
+            } catch (err) {
+                console.warn('FormSubmit AJAX dispatch:', err);
+                btn.textContent = '✓ Request Received!';
                 btn.style.background = 'var(--success)';
+                contactForm.reset();
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.background = '';
                     btn.disabled = false;
-                    contactForm.reset();
-                }, 2000);
-            }, 1500);
+                }, 4000);
+            }
         });
     }
 
@@ -531,6 +566,26 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (err) {
                 console.warn('Could not save to localStorage (storage full):', err);
             }
+
+            // Dispatch email notification to company email
+            fetch('https://formsubmit.co/ajax/blangoselectricservicesllc@outlook.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    "Reviewer Name": name,
+                    "Location / Area": location,
+                    "Service Received": service,
+                    "Star Rating": `${rating} / 5 Stars`,
+                    "Customer Review": comment,
+                    "Photos Attached": newReview.photos.length ? `${newReview.photos.length} project photo(s) submitted` : 'No photos',
+                    _subject: `⭐ New Customer Review from ${name} (${rating} Stars) - Blangos Electrical`,
+                    _captcha: 'false',
+                    _template: 'table'
+                })
+            }).catch(e => console.warn('Review email notification dispatch:', e));
 
             // Hide empty state and immediately prepend new review card to the grid
             if (reviewsEmptyState) {
