@@ -1,0 +1,15 @@
+; BIND zone file for Cloudflare DNS import
+; Domain: blangoelectric.com
+; Target: GitHub Pages
+
+$ORIGIN blangoelectric.com.
+$TTL 3600
+
+; A Records pointing apex domain to GitHub Pages
+@       IN      A       185.199.108.153
+@       IN      A       185.199.109.153
+@       IN      A       185.199.110.153
+@       IN      A       185.199.111.153
+
+; CNAME Record pointing www subdomain to GitHub Pages
+www     IN      CNAME   izreal1990-collab.github.io.
