@@ -1004,7 +1004,7 @@ img {
     color: var(--gray-300);
     font-size: 17px;
     transition: var(--transition);
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     word-break: break-word;
 }
 
